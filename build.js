@@ -229,8 +229,9 @@ function privacy() {
   const body = `
 <section><div class="wrap" style="max-width:760px">
   <h1>Privacy</h1>
-  <p class="note">Last updated: November 11, ${YEAR}</p>
-  <h2>Hashikko (Windows app)</h2>
+  <p class="note">Last updated: November 15, ${YEAR}</p>
+  <p>Hashikko is a free, personal project. Questions about privacy: <a href="mailto:hashikkotaro@gmail.com">hashikkotaro@gmail.com</a>.</p>
+  <h2>Hashikko (Windows and Mac app)</h2>
   <ul>
     <li><b>Notes, to-dos, settings and other data</b> are saved only on your PC (in %LOCALAPPDATA%\\HashikkoPlayer). They are never sent to the developer or anyone else.</li>
     <li><b>Pointer position</b> is used only to check whether it has reached the right edge of the screen, so the panel can open. It is not stored.</li>
@@ -238,6 +239,22 @@ function privacy() {
     <li><b>Parts you add</b> run in a sandbox that cannot connect to the internet.</li>
     <li><b>When you ask AI to make a tool</b>, you paste your description into an AI service you choose. Hashikko never sends it automatically. What you send is handled under that service's own terms.</li>
     <li>There is no analytics, advertising or tracking.</li>
+  </ul>
+  <h2>What the app downloads</h2>
+  <ul>
+    <li>The list of store parts, parts you add, and the list of removed parts, from the Hashikko Store on GitHub. A small file on this website, to tell you when a new version is out. These requests send nothing about you.</li>
+  </ul>
+  <h2>The Hashikko Store: sharing, sign-in, follows and reports</h2>
+  <p>Using and adding parts never needs an account. Signing in is only needed to share a part or report one.</p>
+  <ul>
+    <li><b>Sign in with Google.</b> Google tells the Hashikko store service a number that identifies your Google account. The service keeps that number, so it knows the same person when you come back. It does not ask for or keep your email address. Your Google name is offered once as a suggestion for your channel name, held for at most 10 minutes during sign-in, and not kept.</li>
+    <li><b>Your channel.</b> The channel name and @handle you choose are shown publicly in the store, with the parts you share. People in the store never see your Google name or email.</li>
+    <li><b>Parts you share</b> (their full code, name and description) are published for review in the public Hashikko Store repository on GitHub, under your channel, and in the store once approved.</li>
+    <li><b>A Hashikko ID.</b> The app makes a random key on your computer. Only a one-way scrambled form of it (a hash) is sent, so the store can count each computer once (follows and how many people use a part) and know that updates to a part come from the same creator. It cannot be turned back into the key and holds nothing about you.</li>
+    <li><b>Reports.</b> The part, the reason and your details are filed in the public repository. Who sent the report is not shown there; it is kept by the store service and seen only by reviewers, to stop abuse.</li>
+    <li><b>Rule-breaks.</b> Warnings, strikes and appeals are kept with your channel, so the store rules can be applied fairly. Reviewers see your channel's history.</li>
+    <li><b>Where it is kept.</b> The store service runs on Cloudflare Workers, and its records are kept in Cloudflare's storage. Shared parts and reports are on GitHub. Each handles data under its own privacy policy.</li>
+    <li><b>Deleting your data.</b> Sign out from your channel in the app at any time. To delete your channel and its records, email the address above from any account and include your @handle; we will confirm it's yours before deleting. Parts already in the store stay until you ask for them to be removed.</li>
   </ul>
   <h2>The Music part and the "Hashikko Player" Chrome extension</h2>
   <ul>
@@ -250,7 +267,7 @@ function privacy() {
   <h2>This website</h2>
   <p>This website has no analytics, advertising or tracking.</p>
 </div></section>`;
-  return page({ title: 'Privacy — Hashikko', description: 'How Hashikko handles your data: it stays on your PC and is never sent anywhere.', root, body });
+  return page({ title: 'Privacy — Hashikko', description: 'How Hashikko handles your data: notes and settings stay on your computer; sharing and sign-in are optional.', root, body });
 }
 
 
