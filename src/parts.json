@@ -1,0 +1,126 @@
+[
+  {
+    "id": "tidy",
+    "name": "Tidy",
+    "emoji": "✨",
+    "builtin": true,
+    "tagline": "Clean up your screen with one click before sharing",
+    "title": "Hide desktop clutter in one click before you share your screen",
+    "intro": "Right before you share your screen on a video call, hide messy desktop icons and windows you don't want people to see. When you're done, one more click puts everything back.",
+    "points": [
+      "Cover your desktop icons and wallpaper with a solid color (your Windows settings are never changed)",
+      "Minimize every window except the one you're using",
+      "Hide the taskbar",
+      "Click Restore to bring your screen back exactly as it was. Even if the app closes unexpectedly, it restores everything the next time it starts"
+    ],
+    "scene": "Before sharing your screen on Zoom, Teams or Google Meet. Before taking a screenshot or recording your screen."
+  },
+  {
+    "id": "memo",
+    "name": "Notes",
+    "emoji": "📝",
+    "builtin": true,
+    "tagline": "Quick notes, one edge away",
+    "title": "A notepad that's always one edge away",
+    "intro": "Jot something down without leaving what you're doing. No opening Notepad, saving a file, and closing it again.",
+    "points": [
+      "Start typing the moment it opens",
+      "Saves automatically as you type",
+      "Copy or delete notes. Deleted notes can be restored for 7 days",
+      "Your notes stay on this PC. Nothing is sent anywhere"
+    ],
+    "scene": "Notes during a meeting, a phone number someone reads out, something to look up later."
+  },
+  {
+    "id": "music",
+    "name": "Music",
+    "emoji": "🎵",
+    "builtin": true,
+    "tagline": "Control Spotify, YouTube and more from anywhere",
+    "title": "Control Spotify or YouTube from the edge of your screen",
+    "intro": "Pause, skip, or go back without switching to your music app. Works with the Spotify app, YouTube, and most apps that show music in Windows media controls.",
+    "points": [
+      "Play, pause, previous and next for Spotify and other music apps",
+      "See the song, artist and album art",
+      "For YouTube, also see the whole playlist with thumbnails and pick a song (with the Hashikko Player extension for Chrome)",
+      "Works from the edge of the screen, whatever app you're in"
+    ],
+    "scene": "When you have background music playing while you write, study or code."
+  },
+  {
+    "id": "timer",
+    "name": "Timer",
+    "emoji": "⏱",
+    "builtin": false,
+    "tagline": "Alternate focus and break time",
+    "title": "A focus timer at the edge of your screen",
+    "intro": "Work for 25 minutes, rest for 5. Use focus-and-break intervals like the Pomodoro Technique without opening another app.",
+    "points": [
+      "Switch between Focus and Break",
+      "Set any length from 1 to 90 minutes",
+      "The panel changes color when time is up",
+      "Counts your focus sessions for the day"
+    ],
+    "scene": "Studying, writing, or getting through chores."
+  },
+  {
+    "id": "calc",
+    "name": "Calculator",
+    "emoji": "🧮",
+    "builtin": false,
+    "tagline": "Quick math, then copy the answer",
+    "title": "A calculator at the edge of your screen. Calculate, then copy the answer",
+    "intro": "No need to hunt for the Calculator app. Open it from the edge, do the math, and copy the answer straight into what you're writing.",
+    "points": [
+      "Add, subtract, multiply, divide and percent",
+      "Works with your keyboard too",
+      "\"Copy answer\" puts the result on your clipboard"
+    ],
+    "scene": "Quotes and budgets, splitting a bill, checking numbers while you build a spreadsheet."
+  },
+  {
+    "id": "todo",
+    "name": "To-do",
+    "emoji": "✅",
+    "builtin": false,
+    "tagline": "Write it down, check it off",
+    "title": "The simplest to-do list: write it down, check it off",
+    "intro": "A to-do list with nothing to set up. Add a task, check it off when it's done.",
+    "points": [
+      "Type and press Enter to add",
+      "Click to check off, click again to undo",
+      "Clear all finished tasks at once"
+    ],
+    "scene": "Today's work, a shopping list, things to finish before a meeting."
+  },
+  {
+    "id": "count",
+    "name": "Word count",
+    "emoji": "🔤",
+    "builtin": false,
+    "tagline": "Count words and characters in any text",
+    "title": "Count words and characters, just by pasting",
+    "intro": "Check the length of an essay, cover letter or post without pasting it into a website.",
+    "points": [
+      "Words and characters (with and without spaces)",
+      "Lines",
+      "Estimated reading time"
+    ],
+    "scene": "Essays with a word limit, application forms, social media posts."
+  },
+  {
+    "id": "clock",
+    "name": "World clock",
+    "emoji": "🌍",
+    "builtin": false,
+    "tagline": "See the time in other cities",
+    "title": "See the time and time difference in other cities at a glance",
+    "intro": "Before you call family or message a coworker abroad, check what time it is there.",
+    "points": [
+      "Your local time at the top",
+      "Add or remove cities from a list of 15",
+      "Shows the date and the time difference from you"
+    ],
+    "scene": "Scheduling meetings across time zones, calling family overseas."
+  }
+]
