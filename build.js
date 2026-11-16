@@ -13,6 +13,10 @@ const hasVideo = fs.existsSync(path.join(SRC, 'video', 'demo.mp4'));
 const hasPoster = fs.existsSync(path.join(SRC, 'video', 'poster.png'));
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+// 見た人の数：Cloudflare Web Analytics（Cookie なし）。ダッシュボードの「Add a site」でもらう token を入れる。空なら何も入れない
+const CF_ANALYTICS_TOKEN = '0cfe4a63550a439892b8ff64124e4914';
+// ダウンロードの数：ボタンはストアの窓口を通る（数えてから zip に送る）。数は本人だけが見られる（Cloudflare の Workers KV → DB → downloads）
+const SERVICE = 'https://hashikko-store.hashikko.workers.dev/';
 const hasShot = (id) => fs.existsSync(path.join(SRC, 'img', `part-${id}.png`));
 
 function page({ title, description, root, active, body }) {
@@ -27,7 +31,7 @@ function page({ title, description, root, active, body }) {
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="${root}style.css">
-</head>
+${CF_ANALYTICS_TOKEN ? `<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${esc(CF_ANALYTICS_TOKEN)}"}'></script>\n` : ''}</head>
 <body>
 <header class="top"><div class="wrap">
   <a class="brand" href="${root}index.html"><span class="mark" aria-hidden="true"></span>Hashikko</a>
@@ -229,7 +233,7 @@ function privacy() {
   const body = `
 <section><div class="wrap" style="max-width:760px">
   <h1>Privacy</h1>
-  <p class="note">Last updated: November 15, ${YEAR}</p>
+  <p class="note">Last updated: November 17, ${YEAR}</p>
   <p>Hashikko is a free, personal project. Questions about privacy: <a href="mailto:hashikkotaro@gmail.com">hashikkotaro@gmail.com</a>.</p>
   <h2>Hashikko (Windows and Mac app)</h2>
   <ul>
@@ -273,7 +277,11 @@ function privacy() {
     <li>It does not read personal information, browsing history, or any site other than YouTube.</li>
   </ul>
   <h2>This website</h2>
-  <p>This website has no analytics, advertising or tracking.</p>
+  <ul>
+    <li>We count visits with Cloudflare Web Analytics. It does not use cookies and does not collect personal information.</li>
+    <li>We count clicks on the Download buttons. To count each person once a day, your IP address is kept only as a scrambled code (a salted hash) for two days, then deleted.</li>
+    <li>There is no advertising.</li>
+  </ul>
 </div></section>`;
   return page({ title: 'Privacy — Hashikko', description: 'How Hashikko handles your data: notes and settings stay on your computer; sharing and sign-in are optional.', root, body });
 }
@@ -340,7 +348,7 @@ function download() {
   </div>` : `<div class="card dl">
     <h2>${os}</h2>
     <p class="note">Version ${esc(r.version)} · ${kb(r.file)} KB · preview</p>
-    <a class="btn primary" href="downloads/${esc(r.file)}" download>Download for ${os}</a>
+    <a class="btn primary" href="${SERVICE}v1/download?os=${os.toLowerCase()}">Download for ${os}</a>
     <ol>${steps.map((x) => `<li>${x}</li>`).join('')}</ol>
   </div>`;
   const body = `
