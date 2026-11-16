@@ -1,10 +1,10 @@
 {
-  "version": "0.7.2",
+  "version": "0.7.3",
   "date": "2026-11-15",
-  "notes": "Drag the icons to reorder them. Clearer settings. Send feedback straight from Gmail.",
+  "notes": "Notes: delete notes for good from Recently deleted, one by one or all at once.",
   "windows": {
-    "file": "Hashikko-Windows-0.7.2.zip",
-    "version": "0.7.2"
+    "file": "Hashikko-Windows-0.7.3.zip",
+    "version": "0.7.3"
   },
   "mac": {
     "file": "Hashikko-Mac-0.7.1.zip",
