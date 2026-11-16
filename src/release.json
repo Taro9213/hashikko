@@ -1,10 +1,10 @@
 {
-  "version": "0.7.7",
+  "version": "0.7.8",
   "date": "2026-11-15",
-  "notes": "Find a part: official parts (including Notes, Music and Tidy) and parts from creators are shown separately.",
+  "notes": "Small cleanups in Find a part.",
   "windows": {
-    "file": "Hashikko-Windows-0.7.7.zip",
-    "version": "0.7.7"
+    "file": "Hashikko-Windows-0.7.8.zip",
+    "version": "0.7.8"
   },
   "mac": {
     "file": "Hashikko-Mac-0.7.1.zip",
