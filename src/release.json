@@ -7,8 +7,8 @@
     "version": "0.7.11"
   },
   "mac": {
-    "file": "Hashikko-Mac-0.7.11.zip",
-    "version": "0.7.11",
-    "notes": "Update with one click from now on: download this version once, then use Update now in Hashikko."
+    "file": "Hashikko-Mac-0.7.12.zip",
+    "version": "0.7.12",
+    "notes": "Tidy up now keeps hidden apps hidden until you click Restore, and shows every app on one screen."
   }
 }
