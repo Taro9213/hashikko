@@ -361,7 +361,7 @@ function download() {
     'Move your pointer to the middle of the right edge, or press <b>Option + Shift + Y</b>.',
   ])}
   </div>
-  <p class="note">The zip also has a README with more details. When a new version comes out, Hashikko shows a note in its settings, and you download it here again. Your notes and parts stay as they are.</p>
+  <p class="note">The zip also has a README with more details. When a new version comes out, Hashikko tells you, and on Windows you just click <b>Update now</b> (from version 0.7.9). If you have an older version, download it here once more. Your notes and parts stay as they are.</p>
 </div></section>`;
   return page({ title: 'Download — Hashikko', description: 'Download Hashikko for Windows or Mac. Free preview.', root, active: 'download', body });
 }

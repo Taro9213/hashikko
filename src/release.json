@@ -1,7 +1,7 @@
 {
   "version": "0.7.9",
   "date": "2026-11-16",
-  "notes": "Update with one click: from now on, Hashikko can update itself.",
+  "notes": "Adds Update now. Download this version once, and after that new versions install with one click.",
   "windows": {
     "file": "Hashikko-Windows-0.7.9.zip",
     "version": "0.7.9"
