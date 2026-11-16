@@ -1,10 +1,10 @@
 {
-  "version": "0.7.9",
+  "version": "0.7.10",
   "date": "2026-11-16",
-  "notes": "Adds Update now. Download this version once, and after that new versions install with one click.",
+  "notes": "When you share a part, you now agree to the Part Terms: you keep the copyright of your part.",
   "windows": {
-    "file": "Hashikko-Windows-0.7.9.zip",
-    "version": "0.7.9"
+    "file": "Hashikko-Windows-0.7.10.zip",
+    "version": "0.7.10"
   },
   "mac": {
     "file": "Hashikko-Mac-0.7.1.zip",
