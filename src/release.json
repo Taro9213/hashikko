@@ -7,8 +7,8 @@
     "version": "0.7.11"
   },
   "mac": {
-    "file": "Hashikko-Mac-0.7.12.zip",
-    "version": "0.7.12",
-    "notes": "Tidy up now keeps hidden apps hidden until you click Restore, and shows every app on one screen."
+    "file": "Hashikko-Mac-0.7.13.zip",
+    "version": "0.7.13",
+    "notes": "Tidy up keeps hidden apps hidden, even when you click the empty screen, and also covers desktop widgets."
   }
 }
