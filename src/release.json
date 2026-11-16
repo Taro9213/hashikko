@@ -1,10 +1,10 @@
 {
-  "version": "0.7.6",
+  "version": "0.7.7",
   "date": "2026-11-15",
-  "notes": "Hiding a part from the bar now shows Undo, and hidden parts are listed under + so you can bring them back. Your saved data also keeps a backup of the previous version.",
+  "notes": "Find a part: official parts (including Notes, Music and Tidy) and parts from creators are shown separately.",
   "windows": {
-    "file": "Hashikko-Windows-0.7.6.zip",
-    "version": "0.7.6"
+    "file": "Hashikko-Windows-0.7.7.zip",
+    "version": "0.7.7"
   },
   "mac": {
     "file": "Hashikko-Mac-0.7.1.zip",
