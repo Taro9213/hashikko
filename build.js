@@ -205,7 +205,6 @@ function partPage(p) {
       <ul>${p.points.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
       <h2>Great for</h2>
       <p>${esc(p.scene)}</p>
-      ${p.id === 'music' ? ytSection('h2') : ''}
       <h2>How to use it</h2>
       <p class="how">${how}</p>
       <div class="ctas" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:24px">${DOWNLOAD(root)}</div>
@@ -354,7 +353,6 @@ function download() {
     'Move your pointer to the middle of the right edge, or press <b>Option + Shift + Y</b>.',
   ])}
   </div>
-  <div class="card" style="margin:18px 0">${ytSection('h3')}</div>
   <p class="note">The zip also has a README with more details. When a new version comes out, Hashikko shows a note in its settings, and you download it here again. Your notes and parts stay as they are.</p>
 </div></section>`;
   return page({ title: 'Download — Hashikko', description: 'Download Hashikko for Windows or Mac. Free preview.', root, active: 'download', body });
