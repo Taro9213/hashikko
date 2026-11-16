@@ -381,5 +381,10 @@ write('help.html', help());
 write('download.html', download());
 fs.cpSync(path.join(SRC, 'downloads'), path.join(OUT, 'downloads'), { recursive: true });
 // version は古いアプリ用（Windows の版）。windows / mac は、それぞれのアプリが自分の版を見る
-write('version.json', JSON.stringify({ version: release.windows.version, windows: release.windows.version, ...(release.mac ? { mac: release.mac.version } : {}), date: release.date, notes: release.notes || '' }, null, 2) + '\n');
+// windowsZip / windowsSha256：Windows 版（0.7.9 から）の「Update now」が、この zip を取り、指紋が同じか確かめてから入れかえる
+const winZip = path.join(SRC, 'downloads', release.windows.file);
+const winSha = fs.existsSync(winZip) ? require('crypto').createHash('sha256').update(fs.readFileSync(winZip)).digest('hex') : '';
+write('version.json', JSON.stringify({ version: release.windows.version, windows: release.windows.version,
+  ...(winSha ? { windowsZip: 'downloads/' + release.windows.file, windowsSha256: winSha } : {}),
+  ...(release.mac ? { mac: release.mac.version } : {}), date: release.date, notes: release.notes || '' }, null, 2) + '\n');
 console.log(`Built: ${OUT} (${parts.length + 5} pages${hasVideo ? ', with demo video' : ', no demo video yet'})`);
