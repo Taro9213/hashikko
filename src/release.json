@@ -1,10 +1,10 @@
 {
-  "version": "0.7.1",
+  "version": "0.7.2",
   "date": "2026-11-15",
-  "notes": "Share your parts in the store under your own channel, sign in with Google, follow creators, and report parts.",
+  "notes": "Drag the icons to reorder them. Clearer settings. Send feedback straight from Gmail.",
   "windows": {
-    "file": "Hashikko-Windows-0.7.1.zip",
-    "version": "0.7.1"
+    "file": "Hashikko-Windows-0.7.2.zip",
+    "version": "0.7.2"
   },
   "mac": {
     "file": "Hashikko-Mac-0.7.1.zip",

@@ -159,3 +159,7 @@ footer a { color: var(--muted); }
 .dl .btn { margin: 12px 0 6px; }
 .dl ol { padding-left: 20px; color: var(--muted); font-size: 15px; }
 .dl li { margin-bottom: 6px; }
+
+/* 手順の番号つきリスト（YouTube の拡張機能など） */
+.steps-plain { padding-left: 22px; }
+.steps-plain li { margin-bottom: 6px; }

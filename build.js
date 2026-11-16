@@ -205,6 +205,7 @@ function partPage(p) {
       <ul>${p.points.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
       <h2>Great for</h2>
       <p>${esc(p.scene)}</p>
+      ${p.id === 'music' ? ytSection('h2') : ''}
       <h2>How to use it</h2>
       <p class="how">${how}</p>
       <div class="ctas" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:24px">${DOWNLOAD(root)}</div>
@@ -308,6 +309,18 @@ function help() {
 }
 
 
+const YT_STEPS = [
+  'Download Hashikko and unzip it. Inside is a folder named <b>Chrome-extension-for-Music</b>. Move it somewhere it can stay (for example, your Documents folder). Chrome keeps using it, so don’t delete it later.',
+  'In Chrome, type <b>chrome://extensions</b> in the address bar and press Enter.',
+  'Turn on <b>Developer mode</b> (top right).',
+  'Click <b>Load unpacked</b> and choose the <b>Chrome-extension-for-Music</b> folder.',
+  'Reload your YouTube tab and play a mix or a playlist. Open Hashikko’s Music part: the whole playlist appears, and you can pick a song.',
+];
+const ytSection = (h = 'h2') => `<${h}>See your YouTube playlist (optional)</${h}>
+<p>With the free <b>Hashikko Player</b> extension for Chrome, the Music part also shows the whole playlist you are playing on YouTube, with thumbnails, and lets you jump to any song. It isn’t in the Chrome Web Store yet, so it takes a few steps:</p>
+<ol class="steps-plain">${YT_STEPS.map((x) => `<li>${x}</li>`).join('')}</ol>
+<p class="note">The extension only reads what is playing on www.youtube.com, and talks only to Hashikko on your own computer. See <a href="${h === 'h2' ? '../' : ''}privacy.html">Privacy</a>.</p>`;
+
 // ---------- ダウンロード ----------
 function download() {
   const root = '';
@@ -341,7 +354,8 @@ function download() {
     'Move your pointer to the middle of the right edge, or press <b>Option + Shift + Y</b>.',
   ])}
   </div>
-  <p class="note">The zip also has a README with more details, and an optional Chrome extension for YouTube playlists. When a new version comes out, Hashikko shows a note in its settings, and you download it here again. Your notes and parts stay as they are.</p>
+  <div class="card" style="margin:18px 0">${ytSection('h3')}</div>
+  <p class="note">The zip also has a README with more details. When a new version comes out, Hashikko shows a note in its settings, and you download it here again. Your notes and parts stay as they are.</p>
 </div></section>`;
   return page({ title: 'Download — Hashikko', description: 'Download Hashikko for Windows or Mac. Free preview.', root, active: 'download', body });
 }
@@ -360,5 +374,6 @@ write('privacy.html', privacy());
 write('help.html', help());
 write('download.html', download());
 fs.cpSync(path.join(SRC, 'downloads'), path.join(OUT, 'downloads'), { recursive: true });
-write('version.json', JSON.stringify({ version: release.version, date: release.date, notes: release.notes || '' }, null, 2) + '\n');
+// version は古いアプリ用（Windows の版）。windows / mac は、それぞれのアプリが自分の版を見る
+write('version.json', JSON.stringify({ version: release.windows.version, windows: release.windows.version, ...(release.mac ? { mac: release.mac.version } : {}), date: release.date, notes: release.notes || '' }, null, 2) + '\n');
 console.log(`Built: ${OUT} (${parts.length + 5} pages${hasVideo ? ', with demo video' : ', no demo video yet'})`);
