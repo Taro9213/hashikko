@@ -1,10 +1,10 @@
 {
-  "version": "0.7.4",
+  "version": "0.7.5",
   "date": "2026-11-15",
-  "notes": "Find a part: store parts come first, a link to the store website, and your own parts tucked away below, where you can delete them.",
+  "notes": "Find a part now leads straight to the Hashikko Store website. Clearer delete confirmation.",
   "windows": {
-    "file": "Hashikko-Windows-0.7.4.zip",
-    "version": "0.7.4"
+    "file": "Hashikko-Windows-0.7.5.zip",
+    "version": "0.7.5"
   },
   "mac": {
     "file": "Hashikko-Mac-0.7.1.zip",
