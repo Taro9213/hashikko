@@ -125,7 +125,7 @@ const heroVisual = hasVideo
 function home() {
   const root = '';
   // 検索エンジンに「無料のアプリ」だと伝える（構造化データ）
-  const ld = { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'Hashikko', alternateName: '端っこ',
+  const ld = { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'Hashikko', alternateName: 'はしっこ',
     applicationCategory: 'ProductivityApplication', operatingSystem: release.mac ? 'Windows 10, Windows 11, macOS' : 'Windows 10, Windows 11',
     url: 'https://taro9213.github.io/hashikko/', image: 'https://taro9213.github.io/hashikko/img/logo-512.png', softwareVersion: release.windows.version,
     description: 'Small tools at the edge of your screen: notes, a one-click screen cleanup before you share, music controls, a timer and more. Describe a tool and AI builds it.',
