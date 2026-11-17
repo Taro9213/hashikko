@@ -15,6 +15,8 @@ const hasPoster = fs.existsSync(path.join(SRC, 'video', 'poster.png'));
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 // 見た人の数：Cloudflare Web Analytics（Cookie なし）。ダッシュボードの「Add a site」でもらう token を入れる。空なら何も入れない
 const CF_ANALYTICS_TOKEN = '0cfe4a63550a439892b8ff64124e4914';
+// Google Search Console の「HTML タグ」で確かめるときの値（content="..." の中身）。本人が Search Console で受け取って入れる
+const GSC_VERIFY = '';
 // ダウンロードの数：ボタンはストアの窓口を通る（数えてから zip に送る）。数は本人だけが見られる（Cloudflare の Workers KV → DB → downloads）
 const SERVICE = 'https://hashikko-store.hashikko.workers.dev/';
 const hasShot = (id) => fs.existsSync(path.join(SRC, 'img', `part-${id}.png`));
@@ -30,6 +32,10 @@ function page({ title, description, root, active, body }) {
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Hashikko">
+<meta property="og:image" content="https://taro9213.github.io/hashikko/${hasPoster ? 'video/poster.png' : 'img/logo-512.png'}">
+<meta name="twitter:card" content="summary_large_image">
+${GSC_VERIFY ? `<meta name="google-site-verification" content="${esc(GSC_VERIFY)}">\n` : ''}<link rel="icon" href="${root}img/logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="${root}style.css">
 ${CF_ANALYTICS_TOKEN ? `<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${esc(CF_ANALYTICS_TOKEN)}"}'></script>\n` : ''}</head>
 <body>
@@ -76,7 +82,22 @@ const PART_CLIPS = { memo: 'In a video call, the panel slides out from the right
 
 // 最初の画面の右側：動画があれば動画、なければ「右端からパネルが出ている画面」の見本
 const heroVisual = hasVideo
-  ? `<video class="demo" src="video/demo.mp4"${hasPoster ? ' poster="video/poster.png"' : ''} autoplay muted loop playsinline aria-label="Hashikko in use: the panel slides out from the right edge while other apps stay open"></video>`
+  // パソコンの画面では字が小さいので、押すと全画面で最初から見られる（もう一度押すか Esc で戻る）
+  ? `<div class="vwrap"><video class="demo" id="heroVideo" src="video/demo.mp4"${hasPoster ? ' poster="video/poster.png"' : ''} autoplay muted loop playsinline aria-label="Hashikko in use: the panel slides out from the right edge while other apps stay open"></video>
+  <button class="vfull" id="heroFull" type="button" aria-label="Watch the video full screen">⛶ Watch full screen</button></div>
+  <script>
+  (() => {
+    const v = document.getElementById('heroVideo'), b = document.getElementById('heroFull');
+    const full = () => {
+      v.currentTime = 0; v.controls = true; v.play();
+      if (v.requestFullscreen) v.requestFullscreen().catch(() => {});
+      else if (v.webkitEnterFullscreen) v.webkitEnterFullscreen();   // iPhone
+    };
+    v.addEventListener('click', () => { if (!document.fullscreenElement) full(); });
+    b.addEventListener('click', full);
+    document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement) v.controls = false; });
+  })();
+  </script>`
   : `<div class="desk" role="img" aria-label="A desktop with the Hashikko panel sliding out from the right edge">
     <div class="win"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <div class="panel"><img src="img/part-timer.png" alt=""></div>
@@ -86,7 +107,14 @@ const heroVisual = hasVideo
 // ---------- トップページ ----------
 function home() {
   const root = '';
+  // 検索エンジンに「無料のアプリ」だと伝える（構造化データ）
+  const ld = { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'Hashikko', alternateName: '端っこ',
+    applicationCategory: 'ProductivityApplication', operatingSystem: release.mac ? 'Windows 10, Windows 11, macOS' : 'Windows 10, Windows 11',
+    url: 'https://taro9213.github.io/hashikko/', image: 'https://taro9213.github.io/hashikko/img/logo-512.png', softwareVersion: release.windows.version,
+    description: 'Small tools at the edge of your screen: notes, a one-click screen cleanup before you share, music controls, a timer and more. Describe a tool and AI builds it.',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } };
   const body = `
+<script type="application/ld+json">${JSON.stringify(ld)}</script>
 <section class="hero"><div class="wrap">
   <div>
     <p class="eyebrow">A toolbox at the edge of your screen · Windows and Mac</p>
@@ -210,7 +238,7 @@ function partPage(p) {
   const extra = p.id === 'music' ? `
       <div class="callout"><h2>Hashikko Player makes YouTube even better</h2>
       <p>Add the free Hashikko Player extension for Chrome, and the Music part shows your whole YouTube playlist with thumbnails. Jump to any song right from the edge.</p>
-      <a class="btn ghost" href="../player.html">About Hashikko Player →</a></div>` : '';
+      <div style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn primary" href="${CWS_URL}">Add to Chrome — free</a><a class="btn ghost" href="../player.html">About Hashikko Player →</a></div></div>` : '';
   const body = `
 <div class="wrap">
   <div class="crumbs"><a href="../index.html">Hashikko</a> › <a href="index.html">Parts</a> › ${esc(p.name)}</div>
@@ -244,7 +272,7 @@ function partPage(p) {
 
 // ---------- Hashikko Player（Chrome の拡張機能）のページ ----------
 // Chrome ウェブストアに載るまでは、入れ方の手順は出さない（本人の判断）。載ったら CWS_URL に住所を入れる
-const CWS_URL = '';
+const CWS_URL = 'https://chromewebstore.google.com/detail/hashikko-player/dloamahidgmnonkpnekebbhkpfkaghoa';
 function player() {
   const root = '';
   const body = `
@@ -427,13 +455,28 @@ fs.mkdirSync(path.join(OUT, 'parts'), { recursive: true });
 fs.cpSync(path.join(SRC, 'img'), path.join(OUT, 'img'), { recursive: true });
 if (fs.existsSync(path.join(SRC, 'video'))) fs.cpSync(path.join(SRC, 'video'), path.join(OUT, 'video'), { recursive: true });
 fs.copyFileSync(path.join(SRC, 'style.css'), path.join(OUT, 'style.css'));
-const write = (rel, html) => fs.writeFileSync(path.join(OUT, rel), html, 'utf8');
+// 検索エンジン向け：ページごとの正式な住所（canonical・og:url）と、サイトマップ（sitemap.xml、Google Search Console に出す）
+const BASE = 'https://taro9213.github.io/hashikko/';
+const sitemap = [];
+const write = (rel, html) => {
+  if (rel.endsWith('.html')) {
+    const url = BASE + (rel === 'index.html' ? '' : rel);
+    html = html.replace('</head>', `<link rel="canonical" href="${url}">\n<meta property="og:url" content="${url}">\n</head>`);
+    sitemap.push(url);
+  }
+  fs.writeFileSync(path.join(OUT, rel), html, 'utf8');
+};
 write('index.html', home());
 write('parts/index.html', gallery());
 for (const p of parts) write(`parts/${p.id}.html`, partPage(p));
 write('privacy.html', privacy());
 write('help.html', help());
 write('player.html', player());
+fs.writeFileSync(path.join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${sitemap.map((u) => `  <url><loc>${u}</loc></url>`).join('\n')}
+</urlset>
+`);
 write('download.html', download());
 fs.cpSync(path.join(SRC, 'downloads'), path.join(OUT, 'downloads'), { recursive: true });
 // version は古いアプリ用（Windows の版）。windows / mac は、それぞれのアプリが自分の版を見る

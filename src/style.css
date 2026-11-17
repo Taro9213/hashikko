@@ -173,3 +173,10 @@ footer a { color: var(--muted); }
 .callout .btn { margin-top: 6px; }
 @media (max-width: 860px) { .pd.v { grid-template-columns: 1fr; } }
 @media (max-width: 860px) { .pd.v .side { max-width: none; } }
+
+/* トップの動画：押すと全画面 */
+.vwrap { position: relative; }
+.vwrap .demo { cursor: zoom-in; }
+.vfull { position: absolute; right: 14px; bottom: 14px; border: 0; border-radius: 999px; padding: 8px 14px; font: inherit; font-size: 14px; font-weight: 700; color: #fff; background: rgba(15,23,42,.78); cursor: pointer; }
+.vfull:hover { background: rgba(15,23,42,.92); }
+@media (max-width: 860px) { .vfull { display: none; } }   /* スマホでは字が十分大きい */
