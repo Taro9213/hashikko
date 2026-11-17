@@ -81,11 +81,12 @@ function home() {
   const body = `
 <section class="hero"><div class="wrap">
   <div>
-    <p class="eyebrow">A toolbox at the edge of your Windows screen</p>
+    <p class="eyebrow">A toolbox at the edge of your screen · Windows and Mac</p>
     <h1>Small tools,<br><em>right at the edge</em> of your screen.</h1>
     <p class="lead">Move your pointer to the right edge and click. A timer, notes, a calculator, a one-click screen cleanup — all right where you are, without leaving what you're doing. Can't find the tool you want? Describe it, and AI builds it for you.</p>
     <div class="ctas">${DOWNLOAD(root)}<a class="btn ghost" href="parts/index.html">See the parts</a></div>
     <p class="note">No account needed. Your data stays on your PC.</p>
+    ${hasVideo ? `<p class="note">Telling a friend? <a href="video/demo.mp4" download="Hashikko-in-45-seconds.mp4">Save the 45-second video</a> and send it, or <a href="video/demo.mp4">watch it full screen</a>.</p>` : ''}
   </div>
   ${heroVisual}
 </div></section>
