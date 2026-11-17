@@ -99,7 +99,12 @@ const heroVisual = hasVideo
     };
     const full = () => {
       v.currentTime = 0; v.controls = true; v.play();
-      if (v.requestFullscreen) v.requestFullscreen().catch(() => { v.controls = false; box(); });
+      if (v.requestFullscreen) {
+        let done = false;
+        const fallback = () => { if (done || document.fullscreenElement) return; done = true; v.controls = false; box(); };
+        v.requestFullscreen().catch(fallback);
+        setTimeout(fallback, 600);   // 断られたと知らせないブラウザーもある
+      }
       else if (v.webkitEnterFullscreen) v.webkitEnterFullscreen();   // iPhone
       else { v.controls = false; box(); }
     };
