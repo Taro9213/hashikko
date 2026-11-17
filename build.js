@@ -66,6 +66,14 @@ const STORE_URL = 'https://taro9213.github.io/hashikko-store/';
 const release = JSON.parse(fs.readFileSync(path.join(SRC, 'release.json'), 'utf8'));
 const DOWNLOAD = (root = '') => `<a class="btn primary" href="${root}download.html">Download · Free · ${release.mac ? "Windows &amp; Mac" : "Windows"}</a>`;
 
+// 短い動画（くり返し、音なし）。src/video/clip-<名前>.mp4 があれば出す。なければ代わりの絵（fallback）
+// 動画は hashikko-win/video の clips.html から作る（render.mjs と FFmpeg）
+const hasClip = (n) => fs.existsSync(path.join(SRC, 'video', `clip-${n}.mp4`));
+const clip = (n, root, label, fallback = '') => hasClip(n)
+  ? `<video class="clipv" src="${root}video/clip-${n}.mp4" poster="${root}video/clip-${n}.jpg" autoplay muted loop playsinline preload="metadata" aria-label="${label}"></video>`
+  : fallback;
+const PART_CLIPS = { memo: 'In a video call, the panel slides out from the right edge and a note is typed', tidy: 'A messy screen during a video call is tidied up in one click, leaving only the call and the presentation', music: 'While writing, the music is paused from the edge panel without switching apps' };
+
 // 最初の画面の右側：動画があれば動画、なければ「右端からパネルが出ている画面」の見本
 const heroVisual = hasVideo
   ? `<video class="demo" src="video/demo.mp4"${hasPoster ? ' poster="video/poster.png"' : ''} autoplay muted loop playsinline aria-label="Hashikko in use: the panel slides out from the right edge while other apps stay open"></video>`
@@ -86,7 +94,6 @@ function home() {
     <p class="lead">Move your pointer to the right edge and click. A timer, notes, a calculator, a one-click screen cleanup — all right where you are, without leaving what you're doing. Can't find the tool you want? Describe it, and AI builds it for you.</p>
     <div class="ctas">${DOWNLOAD(root)}<a class="btn ghost" href="parts/index.html">See the parts</a></div>
     <p class="note">No account needed. Your data stays on your PC.</p>
-    ${hasVideo ? `<p class="note">Telling a friend? <a href="video/demo.mp4" download="Hashikko-in-45-seconds.mp4">Save the 45-second video</a> and send it, or <a href="video/demo.mp4">watch it full screen</a>.</p>` : ''}
   </div>
   ${heroVisual}
 </div></section>
@@ -112,7 +119,7 @@ function home() {
       <li><b>Use it right there</b><span>When you're done, move your pointer away. The panel tucks itself back.</span></li>
     </ol>
   </div>
-  <div class="shot"><img src="img/part-tidy.png" alt="The Tidy part: a large Tidy up button and options for what to tidy"><img src="img/part-todo.png" alt="The To-do part with three tasks"></div>
+  ${clip('how', '', 'With many browser tabs open, the pointer goes to the right edge, the panel slides out, and a note is typed in Notes', '<div class="shot"><img src="img/part-tidy.png" alt="The Tidy part"><img src="img/part-todo.png" alt="The To-do part with three tasks"></div>')}
 </div></section>
 
 <section id="make" class="alt"><div class="wrap split flip">
@@ -127,7 +134,7 @@ function home() {
     </ol>
     <p class="note">Tools you make run in a protected space that can't connect to the internet. Using an AI service requires an account with that service.</p>
   </div>
-  <div class="shot"><img src="img/make-1.png" alt="Step 1 of making a tool: describe what you want"><img src="img/store.png" alt="The Find parts screen listing available parts"></div>
+  ${clip('make', '', 'Wishing for a timer that says when to take a break, the person types the idea into Make your own, and a Pomodoro timer appears in the panel', '<div class="shot"><img src="img/make-1.png" alt="Step 1 of making a tool: describe what you want"><img src="img/store.png" alt="The Find parts screen"></div>')}
 </div></section>
 
 <section><div class="wrap">
@@ -194,13 +201,20 @@ function partPage(p) {
   const how = p.builtin
     ? `${esc(p.name)} comes with Hashikko. Click the tab at the right edge of your screen, then click the ${esc(p.name)} icon at the top.`
     : `In Hashikko, click ＋ at the top right and click Add next to ${esc(p.name)}. After that, open it from its icon at the top.`;
-  const side = hasShot(p.id)
+  const video = PART_CLIPS[p.id] && hasClip(p.id);
+  const side = video ? clip(p.id, root, PART_CLIPS[p.id])
+    : hasShot(p.id)
     ? `<img src="../img/part-${p.id}.png" alt="The ${esc(p.name)} part">`
     : `<div class="fake"><div><div class="emo" aria-hidden="true">${p.emoji}</div><p>Screenshot coming soon</p></div></div>`;
+  // Music：YouTube をもっと便利にする拡張機能（Hashikko Player）のページへ
+  const extra = p.id === 'music' ? `
+      <div class="callout"><h2>Hashikko Player makes YouTube even better</h2>
+      <p>Add the free Hashikko Player extension for Chrome, and the Music part shows your whole YouTube playlist with thumbnails. Jump to any song right from the edge.</p>
+      <a class="btn ghost" href="../player.html">About Hashikko Player →</a></div>` : '';
   const body = `
 <div class="wrap">
   <div class="crumbs"><a href="../index.html">Hashikko</a> › <a href="index.html">Parts</a> › ${esc(p.name)}</div>
-  <div class="pd">
+  <div class="pd${video ? ' v' : ''}">
     <div>
       <div class="emo" aria-hidden="true">${p.emoji}</div>
       <h1>${esc(p.title)}</h1>
@@ -211,7 +225,7 @@ function partPage(p) {
       <h2>Great for</h2>
       <p>${esc(p.scene)}</p>
       <h2>How to use it</h2>
-      <p class="how">${how}</p>
+      <p class="how">${how}</p>${extra}
       <div class="ctas" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:24px">${DOWNLOAD(root)}</div>
     </div>
     <div class="side">${side}</div>
@@ -226,6 +240,38 @@ function partPage(p) {
     description: `${p.tagline}. ${p.intro}`,
     root, active: 'parts', body,
   });
+}
+
+// ---------- Hashikko Player（Chrome の拡張機能）のページ ----------
+// Chrome ウェブストアに載るまでは、入れ方の手順は出さない（本人の判断）。載ったら CWS_URL に住所を入れる
+const CWS_URL = '';
+function player() {
+  const root = '';
+  const body = `
+<div class="wrap">
+  <div class="crumbs"><a href="index.html">Hashikko</a> › <a href="parts/index.html">Parts</a> › <a href="parts/music.html">Music</a> › Hashikko Player</div>
+  <div class="pd">
+    <div>
+      <div class="emo" aria-hidden="true">▶️</div>
+      <h1>Hashikko Player for Chrome</h1>
+      <p class="lead">A free Chrome extension that makes YouTube even better with Hashikko. See your whole YouTube playlist in the Music part, with thumbnails, and jump to any song from the edge of your screen.</p>
+      <h2>What it adds</h2>
+      <ul>
+        <li>The whole mix or playlist you're playing on YouTube, with thumbnails</li>
+        <li>Click a song in the Music part to play it, without going back to your YouTube tab</li>
+        <li>Works together with play, pause and skip, which the Music part already does</li>
+      </ul>
+      <h2>Do I need it?</h2>
+      <p>No. Without it, the Music part already plays, pauses and skips YouTube, Spotify and most music apps. Hashikko Player only adds the playlist.</p>
+      <h2>Get it</h2>
+      ${CWS_URL ? `<p><a class="btn primary" href="${CWS_URL}">Add to Chrome — free</a></p>` : `<p class="how">Coming soon to the Chrome Web Store. It's being reviewed by Google now, and the button to add it will appear here when it's ready.</p>`}
+      <h2>Your privacy</h2>
+      <p>It only reads what's playing on www.youtube.com, and it talks only to Hashikko on your own computer. Nothing is sent to us or anyone else. See <a href="privacy.html">Privacy</a>.</p>
+    </div>
+    <div class="side"><div class="fake"><div><div class="emo" aria-hidden="true">🎵</div><p>Your YouTube playlist, right in the Music part</p></div></div></div>
+  </div>
+</div>`;
+  return page({ title: 'Hashikko Player — see your YouTube playlist from the edge | Hashikko', description: 'A free Chrome extension for Hashikko: see your whole YouTube playlist in the Music part and jump to any song.', root, active: 'parts', body });
 }
 
 // ---------- プライバシー ----------
@@ -387,6 +433,7 @@ write('parts/index.html', gallery());
 for (const p of parts) write(`parts/${p.id}.html`, partPage(p));
 write('privacy.html', privacy());
 write('help.html', help());
+write('player.html', player());
 write('download.html', download());
 fs.cpSync(path.join(SRC, 'downloads'), path.join(OUT, 'downloads'), { recursive: true });
 // version は古いアプリ用（Windows の版）。windows / mac は、それぞれのアプリが自分の版を見る

@@ -163,3 +163,13 @@ footer a { color: var(--muted); }
 /* 手順の番号つきリスト（YouTube の拡張機能など） */
 .steps-plain { padding-left: 22px; }
 .steps-plain li { margin-bottom: 6px; }
+
+/* 短い動画（くり返し、音なし） */
+.clipv { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 16px; border: 1px solid var(--line); box-shadow: var(--shadow); background: #e5e7eb; object-fit: cover; }
+.pd.v { grid-template-columns: 1fr minmax(320px, 520px); }
+.pd .side .clipv { border-radius: 14px; }
+.callout { margin-top: 30px; padding: 20px 22px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); }
+.callout h2 { margin-top: 0 !important; }
+.callout .btn { margin-top: 6px; }
+@media (max-width: 860px) { .pd.v { grid-template-columns: 1fr; } }
+@media (max-width: 860px) { .pd.v .side { max-width: none; } }
