@@ -1,10 +1,10 @@
 {
-  "version": "0.7.11",
-  "date": "2026-11-16",
-  "notes": "When you share a part, you now agree to the Part Terms: you keep the copyright of your part. Update notices are easier to catch.",
+  "version": "0.7.12",
+  "date": "2026-11-17",
+  "notes": "Tidy up keeps hidden windows hidden, even when an app tries to bring its window back. The picker now fits all your apps on one screen and lists the ones that stay.",
   "windows": {
-    "file": "Hashikko-Windows-0.7.11.zip",
-    "version": "0.7.11"
+    "file": "Hashikko-Windows-0.7.12.zip",
+    "version": "0.7.12"
   },
   "mac": {
     "file": "Hashikko-Mac-0.7.13.zip",
