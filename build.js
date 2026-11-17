@@ -88,10 +88,20 @@ const heroVisual = hasVideo
   <script>
   (() => {
     const v = document.getElementById('heroVideo'), b = document.getElementById('heroFull');
+    // 全画面にできないブラウザーでは、ページの上に大きく出す（外側を押すか Esc で閉じる）
+    const box = () => {
+      const o = document.createElement('div'); o.className = 'vbox';
+      const big = v.cloneNode(); big.removeAttribute('id'); big.controls = true; big.muted = true; big.loop = true; big.autoplay = true;
+      o.append(big); document.body.append(o); big.play();
+      const close = () => { o.remove(); document.removeEventListener('keydown', esc); };
+      const esc = (e) => { if (e.key === 'Escape') close(); };
+      o.addEventListener('click', (e) => { if (e.target === o) close(); }); document.addEventListener('keydown', esc);
+    };
     const full = () => {
       v.currentTime = 0; v.controls = true; v.play();
-      if (v.requestFullscreen) v.requestFullscreen().catch(() => {});
+      if (v.requestFullscreen) v.requestFullscreen().catch(() => { v.controls = false; box(); });
       else if (v.webkitEnterFullscreen) v.webkitEnterFullscreen();   // iPhone
+      else { v.controls = false; box(); }
     };
     v.addEventListener('click', () => { if (!document.fullscreenElement) full(); });
     b.addEventListener('click', full);
