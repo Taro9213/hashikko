@@ -496,6 +496,8 @@ ${sitemap.map((u) => `  <url><loc>${u}</loc></url>`).join('\n')}
 `);
 write('download.html', download());
 fs.cpSync(path.join(SRC, 'downloads'), path.join(OUT, 'downloads'), { recursive: true });
+// Google Search Console の持ち主の確認ファイル（消さない。消すと確認が外れる）
+for (const f of fs.readdirSync(SRC)) if (/^google[0-9a-f]+.html$/.test(f)) fs.copyFileSync(path.join(SRC, f), path.join(OUT, f));
 // version は古いアプリ用（Windows の版）。windows / mac は、それぞれのアプリが自分の版を見る
 // windowsZip / windowsSha256：Windows 版（0.7.9 から）の「Update now」が、この zip を取り、指紋が同じか確かめてから入れかえる
 const winZip = path.join(SRC, 'downloads', release.windows.file);
