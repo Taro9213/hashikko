@@ -55,7 +55,7 @@ ${CF_ANALYTICS_TOKEN ? `<script type="module" src="https://static.cloudflareinsi
 ${body}
 <footer><div class="wrap">
   <span>© ${YEAR} Hashikko</span>
-  <span><a href="${root}help.html">Help</a> · <a href="${root}privacy.html">Privacy</a></span>
+  <span><a href="${root}guides/index.html">Guides</a> · <a href="${root}help.html">Help</a> · <a href="${root}privacy.html">Privacy</a></span>
 </div></footer>
 </body>
 </html>
@@ -270,7 +270,7 @@ function partPage(p) {
       <h2>Great for</h2>
       <p>${esc(p.scene)}</p>
       <h2>How to use it</h2>
-      <p class="how">${how}</p>${extra}
+      <p class="how">${how}</p>${extra}${GUIDES.filter((g) => g.part === p.id).map((g) => `<p class="note" style="margin-top:14px">Guide: <a href="../guides/${g.slug}.html">${esc(g.title)}</a></p>`).join("")}
       <div class="ctas" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:24px">${DOWNLOAD(root)}</div>
     </div>
     <div class="side">${side}</div>
@@ -317,6 +317,74 @@ function player() {
   </div>
 </div>`;
   return page({ title: 'Hashikko Player — see your YouTube playlist from the edge | Hashikko', description: 'A free Chrome extension for Hashikko: see your whole YouTube playlist in the Music part and jump to any song.', root, active: 'parts', body });
+}
+
+// ---------- 使い方のガイド（よく検索される困りごとに答えるページ） ----------
+// Hashikko を使わない方法も正直に書く。そのうえで、Hashikko ならどう楽になるかを短い動画で見せる
+const GUIDES = [
+  { slug: 'hide-desktop-before-screen-sharing', clip: 'tidy', part: 'tidy',
+    title: 'How to hide desktop clutter before you share your screen',
+    desc: 'Before sharing your screen on Zoom, Teams or Google Meet, hide desktop icons, open windows and notifications. Built-in ways on Windows and Mac, and a one-click way.',
+    intro: 'You’re about to share your screen in a meeting, and your desktop is full of files, the email you were reading and a chat with a friend. Here are the quickest ways to clean it up first.',
+    sections: [
+      ['Share one window instead of your whole screen', '<p>In Zoom, Microsoft Teams and Google Meet, you can choose to share a single window (for example, just your slides) instead of the entire screen. People then see only that window. It’s the safest option when you only need to show one thing.</p>'],
+      ['Hide desktop icons on Windows', '<ol class="steps-plain"><li>Right-click an empty spot on the desktop.</li><li>Choose <b>View</b>, then click <b>Show desktop icons</b> so the check mark goes away.</li><li>Do the same again after the meeting to bring them back.</li></ol><p>To minimize every window at once, press <b>Windows key + D</b>. Press it again to bring them back.</p>'],
+      ['Hide desktop icons on Mac', '<p>On recent versions of macOS, open <b>System Settings → Desktop &amp; Dock</b> and turn off <b>Show Items: On Desktop</b>. To hide other apps, hold <b>Option</b> and click the app you’re presenting in the Dock, or press <b>Command + Option + H</b>.</p>'],
+      ['Turn off notifications', '<p>Pop-up messages can appear on top of anything you share. On Windows 11, turn on <b>Do not disturb</b> (Settings → System → Notifications). On Mac, turn on a <b>Focus</b> such as Do Not Disturb from Control Center.</p>'],
+      ['Or do it all in one click with Hashikko', '<p>Hashikko’s <a href="../parts/tidy.html">Tidy</a> part covers your desktop icons and wallpaper with a solid color, lets you pick which apps stay on screen (meeting apps always stay), and minimizes everything else. If an app tries to bring its window back during the meeting, Tidy hides it again. One more click puts everything back exactly as it was. It never changes your Windows settings.</p>'],
+    ] },
+  { slug: 'quick-notes-while-working', clip: 'how', part: 'memo',
+    title: 'How to take quick notes without switching windows',
+    desc: 'Jot down a note during a meeting or while you work, without leaving the app you’re in. Built-in options on Windows and Mac, and a way that’s always one move away.',
+    intro: 'In the middle of a meeting or a task, you remember something you need to write down. Opening a notes app, finding the right note and coming back breaks your focus. Here are faster ways.',
+    sections: [
+      ['Built-in options', '<p>On Windows, <b>Sticky Notes</b> keeps small notes on your desktop, and <b>Windows key + Shift + S</b> grabs a quick screenshot when typing is too slow. On Mac, <b>Quick Note</b> (move the pointer to a corner you set as a Hot Corner, or press <b>Fn + Q</b>) opens a small note over any app.</p>'],
+      ['Keep your notes one move away', '<p>The trouble with most notes apps is that they live behind your other windows. Hashikko keeps <a href="../parts/memo.html">Notes</a> at the edge of your screen: move your pointer to the middle of the right edge, click the tab, and type. Your note saves itself as you write, stays on your own computer, and the panel tucks itself away when you move your pointer back.</p>'],
+      ['Tips for notes during meetings', '<ul><li>Write action items first (who does what, by when).</li><li>Keep one note per meeting, with the date in the first line, so it’s easy to find later.</li><li>Copy the note into an email or chat right after the meeting while it’s fresh.</li></ul>'],
+    ] },
+  { slug: 'pause-music-without-switching-apps', clip: 'music', part: 'music',
+    title: 'How to pause music without switching apps',
+    desc: 'Pause, skip or go back on Spotify, YouTube and other music apps without leaving the window you’re working in. Keyboard keys, Windows and Mac controls, and the edge of your screen.',
+    intro: 'Music helps you focus, until it doesn’t. When you need quiet for a call or a hard part of your work, here’s how to stop it without hunting for the music app.',
+    sections: [
+      ['Use the media keys', '<p>Many keyboards have play/pause, next and previous keys (sometimes on the F keys, together with <b>Fn</b>). They control whatever is playing, including YouTube in your browser and the Spotify app.</p>'],
+      ['Use the built-in controls', '<p>On Windows 11, open <b>Quick Settings</b> (click the network or volume icon at the bottom right): the media controls appear at the top. On Mac, open <b>Control Center</b> from the menu bar and use <b>Now Playing</b>.</p>'],
+      ['Or from the edge of your screen', '<p>Hashikko’s <a href="../parts/music.html">Music</a> part shows what’s playing, with play, pause, next and previous, one move away at the edge of your screen. It works with Spotify, YouTube and most apps that show music in the system media controls. With the free <a href="../player.html">Hashikko Player</a> extension for Chrome, you can also see your whole YouTube playlist and jump to any song.</p>'],
+    ] },
+  { slug: 'pomodoro-timer-always-on-screen', clip: 'make', part: 'timer',
+    title: 'A Pomodoro timer that’s always one move away',
+    desc: 'Use the Pomodoro technique (25 minutes of focus, 5 minutes of rest) with a timer you can reach from any app. Built-in timers, and how to make your own with AI.',
+    intro: 'The Pomodoro technique is simple: focus for 25 minutes, rest for 5, and take a longer break after four rounds. The hard part is keeping a timer in sight without it getting in the way.',
+    sections: [
+      ['Built-in timers', '<p>On Windows, the <b>Clock</b> app has timers and a Focus session feature. On Mac, the <b>Clock</b> app (macOS Ventura and later) has timers, and you can ask Siri to set one. They work, but they open as separate windows that get buried behind your work.</p>'],
+      ['A timer at the edge of your screen', '<p>Hashikko’s <a href="../parts/timer.html">Timer</a> part alternates focus and break time and lives at the edge of your screen, so it’s always one move away and never covers your work.</p>'],
+      ['Or describe the timer you want, and AI builds it', '<p>Want a long break after four rounds, a counter for today’s sessions, or different lengths? In Hashikko, click <b>＋ → Make your own</b> and describe it in your own words, for example “a Pomodoro timer: 25 minutes of focus, then a 5-minute break, and a sound when it switches.” Hashikko writes the request for an AI you choose, then adds the tool it makes to the edge of your screen. <a href="../index.html#make">How making a tool works</a>.</p>'],
+    ] },
+];
+function guidePage(g) {
+  const root = '../';
+  const body = `
+<div class="wrap guide">
+  <div class="crumbs"><a href="../index.html">Hashikko</a> › <a href="index.html">Guides</a></div>
+  <h1>${esc(g.title)}</h1>
+  <p class="lead">${esc(g.intro)}</p>
+  ${clip(g.clip, root, g.desc)}
+  ${g.sections.map(([h, html]) => `<h2>${esc(h)}</h2>\n${html}`).join('\n')}
+  <div class="how" style="margin-top:28px"><b>Hashikko is free for Windows and Mac.</b> Small tools at the edge of your screen: notes, a one-click screen cleanup, music controls, timers, and tools you make yourself.</div>
+  <div class="ctas" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:20px">${DOWNLOAD(root)}<a class="btn ghost" href="index.html">More guides</a></div>
+</div>`;
+  return page({ title: `${g.title} | Hashikko`, description: g.desc, root, active: '', body });
+}
+function guidesIndex() {
+  const root = '../';
+  const body = `
+<div class="wrap guide">
+  <div class="crumbs"><a href="../index.html">Hashikko</a> › Guides</div>
+  <h1>Guides</h1>
+  <p class="lead">Quick answers to everyday computer annoyances, with built-in ways and the Hashikko way.</p>
+  <ul class="glist">${GUIDES.map((g) => `<li><a href="${g.slug}.html"><b>${esc(g.title)}</b><span>${esc(g.desc)}</span></a></li>`).join('\n')}</ul>
+</div>`;
+  return page({ title: 'Guides | Hashikko', description: 'Quick answers to everyday computer annoyances: hiding desktop clutter before screen sharing, quick notes, pausing music, Pomodoro timers.', root, active: '', body });
 }
 
 // ---------- プライバシー ----------
@@ -489,6 +557,9 @@ for (const p of parts) write(`parts/${p.id}.html`, partPage(p));
 write('privacy.html', privacy());
 write('help.html', help());
 write('player.html', player());
+fs.mkdirSync(path.join(OUT, 'guides'), { recursive: true });
+write('guides/index.html', guidesIndex());
+for (const g of GUIDES) write(`guides/${g.slug}.html`, guidePage(g));
 fs.writeFileSync(path.join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${sitemap.map((u) => `  <url><loc>${u}</loc></url>`).join('\n')}
