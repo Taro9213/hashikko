@@ -17,6 +17,8 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&l
 const CF_ANALYTICS_TOKEN = '0cfe4a63550a439892b8ff64124e4914';
 // Google Search Console の「HTML タグ」で確かめるときの値（content="..." の中身）。本人が Search Console で受け取って入れる
 const GSC_VERIFY = '';
+// style.css を変えたら、ブラウザーが古いものを使わないように、中身から作った印を住所に付ける
+const CSS_VER = require('crypto').createHash('sha256').update(fs.readFileSync(path.join(__dirname, 'src', 'style.css'))).digest('hex').slice(0, 10);
 // ダウンロードの数：ボタンはストアの窓口を通る（数えてから zip に送る）。数は本人だけが見られる（Cloudflare の Workers KV → DB → downloads）
 const SERVICE = 'https://hashikko-store.hashikko.workers.dev/';
 const hasShot = (id) => fs.existsSync(path.join(SRC, 'img', `part-${id}.png`));
@@ -36,7 +38,7 @@ function page({ title, description, root, active, body }) {
 <meta property="og:image" content="https://taro9213.github.io/hashikko/${hasPoster ? 'video/poster.png' : 'img/logo-512.png'}">
 <meta name="twitter:card" content="summary_large_image">
 ${GSC_VERIFY ? `<meta name="google-site-verification" content="${esc(GSC_VERIFY)}">\n` : ''}<link rel="icon" href="${root}img/logo.svg" type="image/svg+xml">
-<link rel="stylesheet" href="${root}style.css">
+<link rel="stylesheet" href="${root}style.css?v=${CSS_VER}">
 ${CF_ANALYTICS_TOKEN ? `<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${esc(CF_ANALYTICS_TOKEN)}"}'></script>\n` : ''}</head>
 <body>
 <header class="top"><div class="wrap">
