@@ -17,6 +17,8 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&l
 const CF_ANALYTICS_TOKEN = '0cfe4a63550a439892b8ff64124e4914';
 // Google Search Console の「HTML タグ」で確かめるときの値（content="..." の中身）。本人が Search Console で受け取って入れる
 const GSC_VERIFY = '';
+// カレンダーの部品を友達に配るまでは、ホームページに載せない（本人の判断、2026-11-17）。配るときに true にして、アプリの版と一緒に出す
+const CALENDAR_LIVE = false;
 // style.css を変えたら、ブラウザーが古いものを使わないように、中身から作った印を住所に付ける
 const CSS_VER = require('crypto').createHash('sha256').update(fs.readFileSync(path.join(__dirname, 'src', 'style.css'))).digest('hex').slice(0, 10);
 // ダウンロードの数：ボタンはストアの窓口を通る（数えてから zip に送る）。数は本人だけが見られる（Cloudflare の Workers KV → DB → downloads）
@@ -420,14 +422,14 @@ function privacy() {
     <li><b>Where it is kept.</b> The store service runs on Cloudflare Workers, and its records are kept in Cloudflare's storage. Shared parts and reports are on GitHub. Each handles data under its own privacy policy.</li>
     <li><b>Deleting your data.</b> Sign out from your channel in the app at any time. To delete your channel and its records, email the address above from any account and include your @handle; we will confirm it's yours before deleting. Parts already in the store stay until you ask for them to be removed.</li>
   </ul>
-  <h2>The Calendar part (Google Calendar)</h2>
+  ${CALENDAR_LIVE ? `<h2>The Calendar part (Google Calendar)</h2>
   <ul>
     <li>Only if you click <b>Connect Google Calendar</b>, the app asks Google for <b>read-only</b> access to your calendar. It cannot add, change or delete events.</li>
     <li>The app talks to Google directly from your computer. Your events are not sent to the Hashikko store service, to the developer, or to anyone else, and are not stored; they are read again when the panel is open.</li>
     <li>The key that lets the app read your calendar is kept only on your computer, encrypted so that only your Windows account can unlock it.</li>
     <li><b>Disconnect</b> in the Calendar part removes the key from your computer and cancels the access at Google. You can also remove access any time at <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>.</li>
     <li>Hashikko's use and transfer of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements.</li>
-  </ul>
+  </ul>` : ''}
   <h2>The Music part and the "Hashikko Player" Chrome extension</h2>
   <ul>
     <li>For Spotify and other music apps, the Music part reads the song title, artist and album art that Windows shows in its media controls, and sends play, pause and skip commands to that app. This happens only on your PC; Hashikko does not connect to your Spotify account.</li>
