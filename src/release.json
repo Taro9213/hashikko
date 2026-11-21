@@ -1,10 +1,10 @@
 {
-  "version": "0.7.12",
-  "date": "2026-11-17",
-  "notes": "Tidy up keeps hidden windows hidden, even when an app tries to bring its window back. The picker now fits all your apps on one screen and lists the ones that stay.",
+  "version": "0.7.13",
+  "date": "2026-11-21",
+  "notes": "Music now has a volume slider and a mute button, so you can turn your PC's sound down right from the edge.",
   "windows": {
-    "file": "Hashikko-Windows-0.7.12.zip",
-    "version": "0.7.12"
+    "file": "Hashikko-Windows-0.7.13.zip",
+    "version": "0.7.13"
   },
   "mac": {
     "file": "Hashikko-Mac-0.7.13.zip",
